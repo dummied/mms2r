@@ -507,7 +507,7 @@ module MMS2R
     # returns a filename declared for a part, or a default if its not defined
 
     def filename?(part)
-      name = part.filename
+      name = part.filename.downcase
       if (name.nil? || name.empty?)
         if part.content_id && part.content_id.strip =~ /^<(.+)>$/
           name = $1
