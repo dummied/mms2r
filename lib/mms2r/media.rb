@@ -507,7 +507,7 @@ module MMS2R
     # returns a filename declared for a part, or a default if its not defined
 
     def filename?(part)
-      name = part.filename.downcase
+      name = part.filename
       if (name.nil? || name.empty?)
         if part.content_id && part.content_id.strip =~ /^<(.+)>$/
           name = $1
@@ -723,7 +723,7 @@ module MMS2R
 
     def type_from_filename(filename)
       ext = filename.split('.').last
-      ent = MMS2R::EXT.detect{|k,v| v == ext}
+      ent = MMS2R::EXT.detect{|k,v| v == ext.downcase}
       ent.nil? ? nil : ent.first
     end
 
