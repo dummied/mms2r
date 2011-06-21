@@ -388,6 +388,7 @@ module MMS2R
         ignore ||= ignores.detect{ |test| part.body.decoded.strip =~ eval(test) if test.index('/') == 0 }
         ignore ||= (part.body.decoded.strip.size == 0 ? true : nil)
       rescue
+        part.body = ""
         ignore = nil
       end
       ignore.nil? ? false : true
