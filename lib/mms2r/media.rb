@@ -382,10 +382,14 @@ module MMS2R
 
     def ignore_media?(type, part)
       ignores = config['ignore'][type] || []
-      ignore   = ignores.detect{ |test| filename?(part) == test}
-      ignore ||= ignores.detect{ |test| filename?(part) =~ eval(test) if test.index('/') == 0 }
-      ignore ||= ignores.detect{ |test| part.body.decoded.strip =~ eval(test) if test.index('/') == 0 }
-      ignore ||= (part.body.decoded.strip.size == 0 ? true : nil)
+      begin
+        ignore   = ignores.detect{ |test| filename?(part) == test}
+        ignore ||= ignores.detect{ |test| filename?(part) =~ eval(test) if test.index('/') == 0 }
+        ignore ||= ignores.detect{ |test| part.body.decoded.strip =~ eval(test) if test.index('/') == 0 }
+        ignore ||= (part.body.decoded.strip.size == 0 ? true : nil)
+      rescue
+        ignore = nil
+      end
       ignore.nil? ? false : true
     end
 
